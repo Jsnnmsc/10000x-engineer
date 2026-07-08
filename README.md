@@ -1,22 +1,23 @@
-# explain-to-an-idiot
+# 10000x Engineer
 
-A [Claude Code](https://claude.ai/code) plugin that gives software engineers a set of focused, no-fluff tools for understanding technical concepts, decoding errors, scoping work, and surfacing risk — in your language.
+A [Claude Code](https://claude.ai/code) plugin that gives software engineers a set of focused, no-fluff tools for sizing up a change before you make it — in your language.
 
 ## Skills
 
 | Skill | Invoke | Use when |
 |---|---|---|
-| **tldr** | `/explain-to-an-idiot:tldr JWT` | You need the point in 10 seconds |
-| **error** | `/explain-to-an-idiot:error` + paste trace | You hit an error and need to fix it fast |
-| **scope** | `/explain-to-an-idiot:scope` + paste requirement | You need to define what's in/out before starting |
-| **risk** | `/explain-to-an-idiot:risk` + paste diff | You want to know what could break before shipping |
-| **why** | `/explain-to-an-idiot:why HTTP is stateless` | You want the reasoning behind a design decision |
+| **tldr** | `/10000x-engineer:tldr JWT` | You need the point in 10 seconds |
+| **scope** | `/10000x-engineer:scope` + paste requirement | You need to know how big a change is before starting |
+| **3w** | `/10000x-engineer:3w` + describe the tweak | You want where/what/why for a possible adjustment |
+| **impact** | `/10000x-engineer:impact` + describe the change | You want to know what breaks or gets touched downstream |
+| **tradeoff** | `/10000x-engineer:tradeoff X vs Y` | You're picking between two options and want the real cost of each |
+| **decision** | `/10000x-engineer:decision` + describe the task | You want the open decision points before diving in |
 
 ## Examples
 
 **`tldr`** — adapts to whether you need a definition or a decision:
 ```
-/explain-to-an-idiot:tldr JWT
+/10000x-engineer:tldr JWT
 
 **JWT**
 A tamper-proof token that proves who you are — server signs it, client carries it.
@@ -24,20 +25,6 @@ A tamper-proof token that proves who you are — server signs it, client carries
 - Use it when: stateless auth across services
 - Skip it when: you need server-side session revocation
 - Bottom line: use it, keep expiry short (15min)
-```
-
-**`error`** — what broke, why, how to fix:
-```
-**What broke**
-Postgres rejected the connection because the pool was exhausted.
-
-**Most likely cause**
-Too many concurrent queries without releasing connections — common in async code that doesn't await properly.
-
-**Fix**
-1. Check for missing `await` on DB calls in async functions
-2. Lower `pool.max` or add a connection timeout
-3. Add connection pool monitoring to catch this earlier
 ```
 
 **`scope`** — clear boundaries before work starts:
@@ -57,30 +44,50 @@ Too many concurrent queries without releasing connections — common in async co
 **Complexity:** S — straightforward auth flow, no novel logic
 ```
 
-**`risk`** — what to verify before shipping:
+**`3w`** — where/what/why for a possible adjustment:
 ```
-**Risks**
-- DB migration changes column type → affects all existing rows
-- New index on high-write table → brief lock during deploy
+**Where**
+`auth/session.ts`, token refresh middleware
 
-**Test before shipping**
-- [ ] Run migration on staging with production data volume
-- [ ] Verify reads/writes on affected table after migration
-- [ ] Check deploy window — avoid peak traffic hours
+**What**
+Shorten access token expiry from 24h to 15min, add silent refresh
 
-**Risk level:** Medium — migration is safe but needs timing care
+**Why**
+Stolen tokens currently stay valid for a full day — shrinking the window limits exposure
 ```
 
-**`why`** — the reasoning behind a design:
+**`impact`** — what a change actually touches:
 ```
-**Short answer**
-HTTP is stateless so servers don't have to remember anything between requests.
+**Directly affected**
+- `users` table — column type change (int → bigint)
 
-**The real reason**
-In the early web, servers couldn't reliably store per-client memory across millions of simultaneous users. Statelessness let any server handle any request, making horizontal scaling trivial.
+**Downstream affected**
+- Any service joining on `users.id` — must handle wider type
+- Analytics pipeline reading raw `users` table dumps
 
-**Trade-off accepted**
-The client has to send identity proof (cookie, token) with every request — more data per request, but no server-side session management.
+**Who notices**
+- On-call, during migration window — brief write lock
+- Data team — schema change breaks existing dashboards until updated
+```
+
+**`tradeoff`** — A vs B, no hedging:
+```
+**Postgres**
+Gain: strong consistency, mature tooling
+Cost: vertical scaling gets expensive past a point
+
+**DynamoDB**
+Gain: scales horizontally with near-zero ops
+Cost: query flexibility is limited, no joins
+
+**Pick:** Postgres — team's data has relational structure and scale isn't there yet
+```
+
+**`decision`** — the open choices before you start:
+```
+**Decision points**
+1. Where does the retry logic live? → client vs middleware vs queue consumer → default: middleware because it's the one place all callers pass through
+2. How many retries? → fixed count vs exponential backoff → default: exponential backoff because failures are likely transient
 ```
 
 ## Installation
@@ -88,8 +95,8 @@ The client has to send identity proof (cookie, token) with every request — mor
 Run these three commands inside Claude Code:
 
 ```
-/plugin marketplace add Jsnnmsc/explain-to-an-idiot
-/plugin install explain-to-an-idiot@explain-to-an-idiot
+/plugin marketplace add Jsnnmsc/10000x-engineer
+/plugin install 10000x-engineer@10000x-engineer
 /reload-plugins
 ```
 

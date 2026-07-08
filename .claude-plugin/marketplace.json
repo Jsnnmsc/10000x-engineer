@@ -1,15 +1,15 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "explain-to-an-idiot",
-  "description": "Focused tools for software engineers: decode errors, scope work, surface risk, and understand technical concepts — in your language.",
+  "name": "10000x-engineer",
+  "description": "Focused tools for software engineers to size up a change before making it: scope, where/what/why, impact, tradeoffs, and decision points — in your language.",
   "owner": {
     "name": "Jsnnmsc",
     "url": "https://github.com/Jsnnmsc"
   },
   "plugins": [
     {
-      "name": "explain-to-an-idiot",
-      "description": "Focused tools for software engineers: decode errors, scope work, surface risk, and understand technical decisions — responds in your language.",
+      "name": "10000x-engineer",
+      "description": "Focused tools for software engineers to size up a change before making it: scope, where/what/why, impact, tradeoffs, and decision points — in your language.",
       "source": "./",
       "category": "productivity"
     }
