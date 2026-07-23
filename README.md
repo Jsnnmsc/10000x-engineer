@@ -12,6 +12,7 @@ A [Claude Code](https://claude.ai/code) plugin that gives software engineers a s
 | **impact** | `/10000x-engineer:impact` + describe the change | You want to know what breaks or gets touched downstream |
 | **tradeoff** | `/10000x-engineer:tradeoff X vs Y` | You're picking between two options and want the real cost of each |
 | **decision** | `/10000x-engineer:decision` + describe the task | You want the open decision points before diving in |
+| **catchup** | `/10000x-engineer:catchup` | You're returning to a task/repo and want to know what changed and what's next |
 
 ## Examples
 
@@ -89,6 +90,31 @@ Cost: query flexibility is limited, no joins
 1. Where does the retry logic live? → client vs middleware vs queue consumer → default: middleware because it's the one place all callers pass through
 2. How many retries? → fixed count vs exponential backoff → default: exponential backoff because failures are likely transient
 ```
+
+**`catchup`** — resume a task without digging through git yourself:
+```
+**Since last time**
+- `47d4b6c` Rework skill set: remove error/risk/why, add 3w, decision, impact, tradeoff
+- Uncommitted: `skills/catchup/SKILL.md` (new, untracked)
+
+**Current state**
+Mid-change — new skill written, not yet committed or added to README
+
+**Next step**
+Review the new SKILL.md, then commit
+```
+
+## Agents
+
+Cheaper-model subagents for delegating mechanical work out of an orchestrator's context — invoke via `@10000x-engineer:scout` / `@10000x-engineer:executor` / `@10000x-engineer:grunt`, or let Claude pick them up automatically.
+
+| Agent | Model | Use when |
+|---|---|---|
+| **scout** | haiku | You need to know where something is before deciding what to do about it — finds files, symbols, call sites, patterns (read-only) |
+| **executor** | sonnet | A step is already decided (what/where/how) and just needs implementing + verifying — writes/edits code to spec, runs build/tests |
+| **grunt** | haiku | Pure mechanical legwork with one obviously-correct outcome — running commands, grepping/reading, mass find-replace, renaming |
+
+Both stop and report back rather than guessing when a step turns out to need a judgment call.
 
 ## Installation
 
