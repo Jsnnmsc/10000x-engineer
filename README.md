@@ -6,6 +6,7 @@ A [Claude Code](https://claude.ai/code) plugin that gives software engineers a s
 
 | Skill | Invoke | Use when |
 |---|---|---|
+| **one-line** | `/10000x-engineer:one-line JWT` | You want one sentence and nothing else |
 | **tldr** | `/10000x-engineer:tldr JWT` | You need the point in 10 seconds |
 | **scope** | `/10000x-engineer:scope` + paste requirement | You need to know how big a change is before starting |
 | **3w** | `/10000x-engineer:3w` + describe the tweak | You want where/what/why for a possible adjustment |
@@ -18,16 +19,23 @@ A [Claude Code](https://claude.ai/code) plugin that gives software engineers a s
 
 ## Examples
 
-**`tldr`** — adapts to whether you need a definition or a decision:
+**`one-line`** — one sentence, then it stops:
+```
+/10000x-engineer:one-line JWT
+
+**A signed token the client carries so the server can verify who they are without storing a session.**
+```
+
+**`tldr`** — the point plus the two facts that matter:
 ```
 /10000x-engineer:tldr JWT
 
 **JWT**
-A tamper-proof token that proves who you are — server signs it, client carries it.
+A signed token the client carries so the server can verify who they are without storing a session.
 
 - Use it when: stateless auth across services
-- Skip it when: you need server-side session revocation
-- Bottom line: use it, keep expiry short (15min)
+- Skip it when: you need instant server-side revocation
+- **Bottom line:** use it, keep expiry at 15min
 ```
 
 **`scope`** — clear boundaries before work starts:
@@ -44,7 +52,7 @@ A tamper-proof token that proves who you are — server signs it, client carries
 - Does the link invalidate after first use?
 - Which email service?
 
-**Complexity:** S — straightforward auth flow, no novel logic
+**Complexity:** S — standard auth flow, no novel logic, one new table column
 ```
 
 **`3w`** — where/what/why for a possible adjustment:
@@ -57,6 +65,8 @@ Shorten access token expiry from 24h to 15min, add silent refresh
 
 **Why**
 Stolen tokens currently stay valid for a full day — shrinking the window limits exposure
+
+**Bottom line:** do it, but ship silent refresh in the same deploy or every user gets logged out hourly
 ```
 
 **`impact`** — what a change actually touches:
@@ -71,26 +81,32 @@ Stolen tokens currently stay valid for a full day — shrinking the window limit
 **Who notices**
 - On-call, during migration window — brief write lock
 - Data team — schema change breaks existing dashboards until updated
+
+**Bottom line:** tell the data team before you start, not after — their nightly load is the one thing that breaks silently
 ```
 
 **`tradeoff`** — A vs B, no hedging:
 ```
 **Postgres**
-Gain: strong consistency, mature tooling
-Cost: vertical scaling gets expensive past a point
+Gain: joins, transactions, and one query language for everything
+Cost: scaling past one big box means sharding work you own forever
 
 **DynamoDB**
-Gain: scales horizontally with near-zero ops
-Cost: query flexibility is limited, no joins
+Gain: horizontal scale with near-zero ops
+Cost: every access pattern must be designed up front into the keys
 
-**Pick:** Postgres — team's data has relational structure and scale isn't there yet
+**Pick:** Postgres — your data is relational and you're nowhere near the scale that justifies DynamoDB's design tax
 ```
 
 **`decision`** — the open choices before you start:
 ```
-**Decision points**
-1. Where does the retry logic live? → client vs middleware vs queue consumer → default: middleware because it's the one place all callers pass through
-2. How many retries? → fixed count vs exponential backoff → default: exponential backoff because failures are likely transient
+**1. Where does the retry logic live?**
+client vs middleware vs queue consumer → default: middleware, the one place all callers pass through
+
+**2. How many retries, and spaced how?**
+fixed count vs exponential backoff → default: exponential backoff capped at 3, failures are likely transient
+
+**Bottom line:** decide #1 first — it determines whether #2 is even yours to make
 ```
 
 **`catchup`** — resume a task without digging through git yourself:
@@ -102,28 +118,39 @@ Cost: query flexibility is limited, no joins
 **Current state**
 Mid-change — new skill written, not yet committed or added to README
 
-**Next step**
-Review the new SKILL.md, then commit
+**Next step:** review the new SKILL.md, then commit
 ```
 
-**`clear-view`** — the situation and the decision, nothing else:
+**`clear-view`** — the situation told plainly, then the decision:
 ```
-**The eval numbers we've been trusting were measuring the wrong thing.**
+The eval numbers we've been trusting were measuring the wrong thing. Those accuracy
+reports look like 4972 cases, but only 34 of them ever reached the real classifier —
+everything else short-circuited on a cache hit. So the "accuracy drop" isn't the model
+getting worse, it's the cache hit rate going up and squeezing the scored sample down to
+almost nothing. The regression we chased for two days doesn't exist, and the model itself
+was never touched. What the real accuracy is with the cache off, we don't know yet.
 
-- Facts: 4972 cases scored, but only 34 ever hit the real classifier — the rest short-circuited on a cache hit
-- Scope: every accuracy number since the caching change; the model itself is untouched
-- Surprise: the regression we chased for two days doesn't exist
-- Bottom line: rerun the eval with cache disabled before touching the model — do you want the full 4972 or a 500 sample first?
+**Rerun with the cache disabled before touching the model — full 4972, or a 500-case
+sample first?**
 ```
 
 **`doubt`** — one fewer thing to build, or a reason it survives:
 ```
 **"Add a plugin system" — the claimed problem is that users need to extend the importer.**
 
-- Real?: two users asked, both wanted the same CSV variant — nobody has asked for a second extension point
-- Do nothing: those two stay blocked; everyone else is unaffected
-- Smallest version: support that CSV variant directly, ~40 lines, no API to maintain
-- Verdict: defer the plugin system until a third distinct extension request lands — ship the CSV variant now
+Two people asked for this, and when you look at what they actually wanted, it was the same
+thing both times: one extra CSV variant. Nobody has asked for a second extension point — so
+the "users need extensibility" framing is doing a lot of work the evidence doesn't support.
+
+**Do nothing**
+Those two stay blocked on their CSV. Nothing else in the product is waiting on this.
+
+**Smallest version**
+Support that CSV variant directly in the importer — about 40 lines, no public API, nothing
+to maintain afterwards.
+
+**Verdict:** ship the CSV variant now, defer the plugin system until a third distinct
+extension request lands
 ```
 
 ## Agents
