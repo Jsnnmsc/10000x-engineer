@@ -1,7 +1,7 @@
 {
   "name": "10000x-engineer",
   "description": "Focused tools for software engineers to size up a change before making it: scope, where/what/why, impact, tradeoffs, and decision points — in your language.",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "author": {
     "name": "Jsnnmsc",
     "url": "https://github.com/Jsnnmsc"

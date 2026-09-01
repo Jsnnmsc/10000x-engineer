@@ -15,7 +15,7 @@ A [Claude Code](https://claude.ai/code) plugin that gives software engineers a s
 | **decision** | `/10000x-engineer:decision` + describe the task | You want the open decision points before diving in |
 | **catchup** | `/10000x-engineer:catchup` | You're returning to a task/repo and want to know what changed and what's next |
 | **clear-view** | `/10000x-engineer:clear-view` | You've lost the thread mid-investigation and need the situation plus the decision |
-| **doubt** | `/10000x-engineer:doubt` + describe the requirement | You suspect a requirement or design isn't actually needed and want it challenged |
+| **first-principle** | `/10000x-engineer:first-principle` + describe the approach | You want to know whether you're solving the right problem before you solve it |
 
 ## Examples
 
@@ -134,23 +134,21 @@ was never touched. What the real accuracy is with the cache off, we don't know y
 sample first?**
 ```
 
-**`doubt`** — one fewer thing to build, or a reason it survives:
+**`first-principle`** — the problem restated as it actually is:
 ```
-**"Add a plugin system" — the claimed problem is that users need to extend the importer.**
+**Stated problem:** CI takes 40 minutes, so let's parallelize across more machines.
 
-Two people asked for this, and when you look at what they actually wanted, it was the same
-thing both times: one extra CSV variant. Nobody has asked for a second extension point — so
-the "users need extensibility" framing is doing a lot of work the evidence doesn't support.
+**Assumptions removed**
+- Every commit runs the full suite — convention: a rule set three years ago at 200 tests, never revisited
+- More machines means faster — convention: treats CI as a compute problem, but total time doesn't drop and that isn't what developers wait on
+- The suite splits cleanly — unverified: check how many tests share one DB fixture; past a third it won't parallelize
 
-**Do nothing**
-Those two stay blocked on their CSV. Nothing else in the product is waiting on this.
+**Facts that survive**
+- A commit touches 3 files on average
+- Developers want "did I break it", not "did everything finish"
+- Everything must be green before it merges to trunk
 
-**Smallest version**
-Support that CSV variant directly in the importer — about 40 lines, no public API, nothing
-to maintain afterwards.
-
-**Verdict:** ship the CSV variant now, defer the plugin system until a third distinct
-extension request lands
+**Essence:** the problem isn't that CI is slow, it's that a breakage takes 40 minutes to surface — those two have different fixes.
 ```
 
 ## Agents
