@@ -1,5 +1,7 @@
 # 10000x Engineer
 
+[![version](https://img.shields.io/badge/dynamic/json?style=flat-square&label=version&query=%24.version&url=https%3A%2F%2Fraw.githubusercontent.com%2FJsnnmsc%2F10000x-engineer%2Fmain%2F.claude-plugin%2Fplugin.json)](./.claude-plugin/plugin.json)
+
 A [Claude Code](https://claude.ai/code) plugin that gives software engineers a set of focused, no-fluff tools for sizing up a change before you make it — in your language.
 
 ## Skills
@@ -192,6 +194,11 @@ Run these three commands inside Claude Code:
 /plugin install 10000x-engineer@10000x-engineer
 /reload-plugins
 ```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Jsnnmsc/10000x-engineer/main/.github/traffic/clones-dark.svg">
+  <img alt="Total installs of this plugin over time" src="https://raw.githubusercontent.com/Jsnnmsc/10000x-engineer/main/.github/traffic/clones-light.svg">
+</picture>
 
 ## License
 

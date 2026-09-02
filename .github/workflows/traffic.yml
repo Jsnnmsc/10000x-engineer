@@ -1,0 +1,35 @@
+name: Traffic
+
+# GitHub's traffic API only exposes the last 14 days, so record it daily and
+# keep the history in the repo.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record clone traffic and render charts
+        env:
+          # The traffic API needs push access. If the default GITHUB_TOKEN is
+          # refused, add a PAT with repo scope as the GH_TRAFFIC_TOKEN secret;
+          # the script prefers it when present and says so when both fail.
+          GH_TRAFFIC_TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/scripts/traffic_chart.py
+
+      - name: Commit any change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/traffic
+          git diff --staged --quiet && echo "no change" && exit 0
+          git commit -m "Update clone traffic"
+          git push
