@@ -16,7 +16,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "Jsnnmsc/10000x-engineer")
-TOKEN = os.environ.get("GH_TRAFFIC_TOKEN") or os.environ.get("GITHUB_TOKEN")
+TOKEN = os.environ.get("GH_TRAFFIC_TOKEN")
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / ".github" / "traffic" / "clones.json"
 
@@ -51,12 +51,9 @@ def fetch_clones():
     except urllib.error.HTTPError as e:
         if e.code in (401, 403):
             sys.exit(
-                f"HTTP {e.code} from the traffic API, which needs push access to "
-                f"{REPO}. The default GITHUB_TOKEN may not reach traffic even with "
-                "administration:read. Fix: create a fine-grained personal access "
-                "token limited to this repository with Administration: Read-only "
-                "(a classic token needs the broader repo scope), and add it as the "
-                "GH_TRAFFIC_TOKEN repository secret."
+                f"HTTP {e.code}: GH_TRAFFIC_TOKEN cannot read traffic for {REPO}. "
+                "It needs a fine-grained token limited to this repository with "
+                "Administration: Read-only (a classic token needs repo scope)."
             )
         raise
 
@@ -228,7 +225,12 @@ def main():
     days = load()
     if "--render-only" not in sys.argv:
         if not TOKEN:
-            sys.exit("No token. Set GH_TRAFFIC_TOKEN or GITHUB_TOKEN.")
+            sys.exit(
+                "GH_TRAFFIC_TOKEN is not set. The traffic API needs push access, "
+                "which the workflow's built-in token does not have. Add a "
+                "fine-grained token limited to this repository with "
+                "Administration: Read-only as the GH_TRAFFIC_TOKEN secret."
+            )
         for entry in fetch_clones():
             d = entry["timestamp"][:10]
             # A later fetch is authoritative for a day it still covers.

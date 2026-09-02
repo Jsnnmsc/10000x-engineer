@@ -9,10 +9,6 @@ on:
 
 permissions:
   contents: write
-  # The traffic endpoints need more than contents; administration:read is
-  # the closest permission GITHUB_TOKEN can request. If it still gets a 403,
-  # the token cannot reach traffic at all and GH_TRAFFIC_TOKEN is required.
-  administration: read
 
 jobs:
   record:
@@ -22,11 +18,11 @@ jobs:
 
       - name: Record clone traffic and render charts
         env:
-          # The traffic API needs push access. If the default GITHUB_TOKEN is
-          # refused, add a PAT with repo scope as the GH_TRAFFIC_TOKEN secret;
-          # the script prefers it when present and says so when both fail.
+          # The traffic API needs push access, which the default GITHUB_TOKEN
+          # does not have and cannot be granted from here — this secret is the
+          # only way in. Passing GITHUB_TOKEN too would only turn a missing
+          # secret into a confusing 403.
           GH_TRAFFIC_TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 .github/scripts/traffic_chart.py
 
       - name: Commit any change
