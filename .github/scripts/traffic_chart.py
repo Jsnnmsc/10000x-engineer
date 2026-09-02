@@ -51,9 +51,12 @@ def fetch_clones():
     except urllib.error.HTTPError as e:
         if e.code in (401, 403):
             sys.exit(
-                f"HTTP {e.code} from the traffic API. It requires push access to "
-                f"{REPO}. If the workflow is using the default GITHUB_TOKEN, add a "
-                "personal access token with repo scope as the GH_TRAFFIC_TOKEN secret."
+                f"HTTP {e.code} from the traffic API, which needs push access to "
+                f"{REPO}. The default GITHUB_TOKEN may not reach traffic even with "
+                "administration:read. Fix: create a fine-grained personal access "
+                "token limited to this repository with Administration: Read-only "
+                "(a classic token needs the broader repo scope), and add it as the "
+                "GH_TRAFFIC_TOKEN repository secret."
             )
         raise
 

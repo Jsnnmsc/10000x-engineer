@@ -9,6 +9,10 @@ on:
 
 permissions:
   contents: write
+  # The traffic endpoints need more than contents; administration:read is
+  # the closest permission GITHUB_TOKEN can request. If it still gets a 403,
+  # the token cannot reach traffic at all and GH_TRAFFIC_TOKEN is required.
+  administration: read
 
 jobs:
   record:
