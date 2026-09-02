@@ -38,23 +38,23 @@ out the conventions, look at what's left, and see what problem those facts actua
 - Phrases that mark a convention, not a constraint: "we've always done it this way", "it's the industry standard", "everyone uses X", "that's too simple to work", "Company X does it like this".
 - For a borrowed pattern, ask what problem the source was actually solving and which of their constraints you don't have. "Netflix does it" is not a fact about your system.
 - **Don't give the solution.** Name the real problem and stop — `decision` and `tradeoff` take it from there.
-- The 本質 line must say something different from the stated problem. If the framing was already right, say that plainly in one line and give the reason — a reframe that has to be manufactured is worse than none.
+- The essence line must say something different from the stated problem. If the framing was already right, say that plainly in one line and give the reason — a reframe that has to be manufactured is worse than none.
 - No tables, no diagrams, no analogies. No emoji.
 
 ## Output format
 
 ```
-**[Your read]:** [their understanding compressed to one faithful sentence, in their words]
+**Your read:** [their understanding compressed to one faithful sentence, in their words]
 
-**[Assumptions removed]**
-- [assumption] — 慣例: [where it came from]
-- [assumption] — 待查: [the one number or log that settles it]
+**Assumptions removed**
+- [assumption] — convention: [where it came from]
+- [assumption] — unverified: [the one number or log that settles it]
 
-**[Facts that survive]**
+**Facts that survive**
 - [fact that passes the ground truth test]
 - [fact]
 
-**[Essence]:** [one line — the real problem, different from the stated one]
+**Essence:** [one line — the real problem, different from the stated one]
 ```
 
 ## Example
@@ -95,4 +95,4 @@ skill stops at naming the problem.
 Don't produce a report. Five sections with tables and a reasoning chain is a document nobody
 reads — twelve lines that change the reader's mind is the deliverable.
 
-If `$ARGUMENTS` is empty, ask: "要從第一性原理拆哪件事？" (in the user's language)
+If `$ARGUMENTS` is empty, ask: "First principles on what?"
