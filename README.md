@@ -15,7 +15,7 @@ A [Claude Code](https://claude.ai/code) plugin that gives software engineers a s
 | **decision** | `/10000x-engineer:decision` + describe the task | You want the open decision points before diving in |
 | **catchup** | `/10000x-engineer:catchup` | You're returning to a task/repo and want to know what changed and what's next |
 | **clear-view** | `/10000x-engineer:clear-view` | You've lost the thread mid-investigation and need the situation plus the decision |
-| **first-principle** | `/10000x-engineer:first-principle` + describe the approach | You want to know whether you're solving the right problem before you solve it |
+| **first-principle** | `/10000x-engineer:first-principle` + your own read of the problem | You want your understanding attacked — which parts are inherited convention, which survive |
 
 ## Examples
 
@@ -134,9 +134,13 @@ was never touched. What the real accuracy is with the cache off, we don't know y
 sample first?**
 ```
 
-**`first-principle`** — the problem restated as it actually is:
+**`first-principle`** — you state your read of the problem, it comes back attacked:
 ```
-**Stated problem:** CI takes 40 minutes, so let's parallelize across more machines.
+/10000x-engineer:first-principle CI takes 40 minutes and everyone's waiting. My read is
+we have too many tests for the machines we've got, so more runners should get it under 10.
+
+**Your read:** CI is slow because test volume exceeds available compute, so parallelizing
+across more runners takes 40 minutes down to 10.
 
 **Assumptions removed**
 - Every commit runs the full suite — convention: a rule set three years ago at 200 tests, never revisited
