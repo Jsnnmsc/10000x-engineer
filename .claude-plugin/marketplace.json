@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "10000x-engineer",
-  "description": "Focused tools for software engineers to size up a change before making it: scope, where/what/why, impact, tradeoffs, and decision points — in your language.",
+  "description": "Focused tools for software engineers to size up a change before making it: scope, impact, tradeoffs, decision points, and a first-principles pass on your own read of the problem — plus cheap subagents for the mechanical work. In your language.",
   "owner": {
     "name": "Jsnnmsc",
     "url": "https://github.com/Jsnnmsc"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "10000x-engineer",
-      "description": "Focused tools for software engineers to size up a change before making it: scope, where/what/why, impact, tradeoffs, and decision points — in your language.",
+      "description": "Focused tools for software engineers to size up a change before making it: scope, impact, tradeoffs, decision points, and a first-principles pass on your own read of the problem — plus cheap subagents for the mechanical work. In your language.",
       "source": "./",
       "category": "productivity"
     }
