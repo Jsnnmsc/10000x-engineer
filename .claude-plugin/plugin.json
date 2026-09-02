@@ -1,7 +1,7 @@
 {
   "name": "10000x-engineer",
   "description": "Focused tools for software engineers to size up a change before making it: scope, impact, tradeoffs, decision points, and a first-principles pass on your own read of the problem — plus cheap subagents for the mechanical work. In your language.",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "author": {
     "name": "Jsnnmsc",
     "url": "https://github.com/Jsnnmsc"
