@@ -223,6 +223,7 @@ def render(rows, theme_name, out_path):
 
 def main():
     days = load()
+    changed = False
     if "--render-only" not in sys.argv:
         if not TOKEN:
             sys.exit(
@@ -233,9 +234,16 @@ def main():
             )
         for entry in fetch_clones():
             d = entry["timestamp"][:10]
-            # A later fetch is authoritative for a day it still covers.
-            days[d] = {"count": entry["count"], "uniques": entry["uniques"]}
-        days = save(days)
+            fresh = {"count": entry["count"], "uniques": entry["uniques"]}
+            # A later fetch is authoritative for a day it still covers. Only
+            # save (and thus bump the updated timestamp / create a commit) when
+            # a day's numbers actually moved — otherwise a run that finds no
+            # new data would churn out a timestamp-only commit.
+            if days.get(d) != fresh:
+                days[d] = fresh
+                changed = True
+        if changed:
+            days = save(days)
 
     rows = series(days)
     for name in THEMES:
