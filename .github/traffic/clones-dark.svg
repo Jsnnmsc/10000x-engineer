@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="268" viewBox="0 0 840 268" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
 <rect width="840" height="268" rx="8" fill="#1a1a19"/>
 <text x="56" y="34" font-size="11" font-weight="600" letter-spacing="1.6" fill="#898781">TOTAL INSTALLS</text>
-<text x="56" y="68"><tspan font-size="32" font-weight="700" fill="#ffffff">425</tspan><tspan dx="12" font-size="14" font-weight="600" fill="#3987e5">productivity granted!!</tspan></text>
+<text x="56" y="68"><tspan font-size="32" font-weight="700" fill="#ffffff">455</tspan><tspan dx="12" font-size="14" font-weight="600" fill="#3987e5">productivity granted!!</tspan></text>
 <line x1="56" y1="234.0" x2="800" y2="234.0" stroke="#383835" stroke-width="1"/>
 <text x="48" y="238.0" font-size="10" text-anchor="end" fill="#898781" font-variant-numeric="tabular-nums">0</text>
 <line x1="56" y1="159.0" x2="800" y2="159.0" stroke="#2c2c2a" stroke-width="1"/>
 <text x="48" y="163.0" font-size="10" text-anchor="end" fill="#898781" font-variant-numeric="tabular-nums">300</text>
 <line x1="56" y1="84.0" x2="800" y2="84.0" stroke="#2c2c2a" stroke-width="1"/>
 <text x="48" y="88.0" font-size="10" text-anchor="end" fill="#898781" font-variant-numeric="tabular-nums">600</text>
-<path d="M56.0,228.5 L102.5,222.8 L149.0,216.0 L195.5,209.8 L242.0,203.0 L288.5,196.2 L335.0,190.2 L381.5,184.5 L428.0,182.2 L474.5,180.2 L521.0,174.5 L567.5,168.5 L614.0,162.2 L660.5,154.0 L707.0,142.0 L753.5,134.8 L800.0,127.8 L800.0,234.0 L56.0,234.0 Z" fill="#3987e5" fill-opacity="0.13"/>
-<path d="M56.0,228.5 L102.5,222.8 L149.0,216.0 L195.5,209.8 L242.0,203.0 L288.5,196.2 L335.0,190.2 L381.5,184.5 L428.0,182.2 L474.5,180.2 L521.0,174.5 L567.5,168.5 L614.0,162.2 L660.5,154.0 L707.0,142.0 L753.5,134.8 L800.0,127.8" fill="none" stroke="#3987e5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-<circle cx="800.0" cy="127.8" r="3.5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<path d="M56.0,228.5 L99.8,222.8 L143.5,216.0 L187.3,209.8 L231.1,203.0 L274.8,196.2 L318.6,190.2 L362.4,184.5 L406.1,182.2 L449.9,180.2 L493.6,174.5 L537.4,168.5 L581.2,162.2 L624.9,154.0 L668.7,142.0 L712.5,134.8 L756.2,127.8 L800.0,120.2 L800.0,234.0 L56.0,234.0 Z" fill="#3987e5" fill-opacity="0.13"/>
+<path d="M56.0,228.5 L99.8,222.8 L143.5,216.0 L187.3,209.8 L231.1,203.0 L274.8,196.2 L318.6,190.2 L362.4,184.5 L406.1,182.2 L449.9,180.2 L493.6,174.5 L537.4,168.5 L581.2,162.2 L624.9,154.0 L668.7,142.0 L712.5,134.8 L756.2,127.8 L800.0,120.2" fill="none" stroke="#3987e5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="800.0" cy="120.2" r="3.5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
 <text x="56" y="254" font-size="10" text-anchor="start" fill="#898781">2026-08-19</text>
-<text x="800" y="254" font-size="10" text-anchor="end" fill="#898781">2026-09-04</text>
+<text x="800" y="254" font-size="10" text-anchor="end" fill="#898781">2026-09-05</text>
 </svg>
