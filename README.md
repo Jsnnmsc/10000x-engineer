@@ -9,6 +9,49 @@
 
 A collection of portable [Agent Skills](https://agentskills.io) for sizing up a software change before making it — focused, no-fluff, and in your language. It includes a [Claude Code](https://claude.ai/code) plugin adapter and works with Codex or other tools that discover skills from `.agents/skills/`.
 
+## Installation
+
+Two ways in, two philosophies. The **plugin** installs the whole set as a managed bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://github.com/vercel-labs/skills)** copies editable skill files into your machine or your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
+
+### 1. Get the skills
+
+**Claude Code**
+
+Run these commands inside Claude Code:
+
+```
+/plugin marketplace add Jsnnmsc/10000x-engineer
+/plugin install 10000x-engineer@10000x-engineer
+/reload-plugins
+```
+
+Skills are `/10000x-engineer:<skill>`, for example `/10000x-engineer:scope`. Subagents are `@10000x-engineer:<agent>`, for example `@10000x-engineer:scout`.
+
+**Codex**
+
+```bash
+codex plugin marketplace add Jsnnmsc/10000x-engineer
+codex plugin add 10000x-engineer@10000x-engineer
+```
+
+Codex reads the same `.claude-plugin/marketplace.json` as a legacy-compatible marketplace and loads `skills/` from the plugin root, so no Codex-specific manifest exists. Codex lists these namespaced by plugin — `10000x-engineer:scope`, `10000x-engineer:tldr`, and so on; run `/skills` or type `$` to pick one. After the repo updates, run `codex plugin marketplace upgrade` to refresh the snapshot.
+
+**Any Agent Skills tool, or a global install**
+
+```bash
+npx skills@latest add Jsnnmsc/10000x-engineer
+```
+
+The installer detects which agents you have, lets you pick the skills you want, and writes them where each tool looks. Add `-g` to install into your user directory rather than the current project, or `--copy` to get real files instead of symlinks. `npx skills update` pulls my latest changes.
+
+Codex, opencode, and Pi all read `~/.agents/skills/`. Skills installed this way are not namespaced, so Codex sees `$scope` rather than `$10000x-engineer:scope`. Claude Code does not read `~/.agents/skills/` — use the plugin install above instead.
+
+### 2. You're ready to go.
+
+Nothing to configure per repo — these skills read your code and answer.
+
+> Only the skills are portable. The subagents in `agents/` use Claude Code's agent frontmatter (`model`, `tools`, `maxTurns`), which has no cross-tool equivalent.
+
 ## Skills
 
 | Skill | Invoke | Use when |
@@ -189,51 +232,6 @@ They stop and report back rather than guessing when a step turns out to need a j
 
 Start with the currency one; the retry can ride along later.
 ```
-
-## Installation
-
-### Claude Code
-
-Run these commands inside Claude Code:
-
-```
-/plugin marketplace add Jsnnmsc/10000x-engineer
-/plugin install 10000x-engineer@10000x-engineer
-/reload-plugins
-```
-
-Skills are `/10000x-engineer:<skill>`, for example `/10000x-engineer:scope`. Subagents are `@10000x-engineer:<agent>`, for example `@10000x-engineer:scout`.
-
-### Codex
-
-```bash
-codex plugin marketplace add Jsnnmsc/10000x-engineer
-codex plugin add 10000x-engineer@10000x-engineer
-```
-
-Codex reads the same `.claude-plugin/marketplace.json` as a legacy-compatible marketplace and loads `skills/` from the plugin root, so no Codex-specific manifest exists. Codex lists these namespaced by plugin — `10000x-engineer:scope`, `10000x-engineer:tldr`, and so on; run `/skills` or type `$` to pick one. After the repo updates, run `codex plugin marketplace upgrade` to refresh the snapshot.
-
-### Skills only — any Agent Skills tool
-
-To get the skills globally instead of installing the repo as a plugin, clone it once and copy each skill into `~/.agents/skills/`:
-
-```bash
-PLUGIN_DIR=~/.local/share/10000x-engineer
-git clone https://github.com/Jsnnmsc/10000x-engineer "$PLUGIN_DIR" 2>/dev/null ||
-  git -C "$PLUGIN_DIR" pull
-mkdir -p ~/.agents/skills
-for skill in "$PLUGIN_DIR"/skills/*; do
-  name=$(basename "$skill")
-  rm -rf ~/.agents/skills/"$name"
-  cp -R "$skill" ~/.agents/skills/"$name"
-done
-```
-
-Copy rather than symlink: Codex does not resolve a symlinked skill directory inside a skills root, so a symlinked install is silently missed. Pi does follow them, but copy is the form that works everywhere.
-
-Codex, opencode, and Pi all pick up `~/.agents/skills/`. Skills installed this way are not namespaced, so Codex sees `$scope` rather than `$10000x-engineer:scope`. Claude Code does not read `~/.agents/skills/` — use the plugin install above instead. Codex also discovers `~/.codex/skills/`, which is where its own `$skill-installer` puts skills.
-
-> Only the skills are portable. The subagents in `agents/` use Claude Code's agent frontmatter (`model`, `tools`, `maxTurns`), which has no cross-tool equivalent.
 
 ## License
 
