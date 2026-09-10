@@ -65,4 +65,4 @@ options are genuinely tied, say what would break the tie and pick the reversible
 Don't compare on dimensions the user can't act on. Benchmark numbers nobody will hit are
 not a cost.
 
-If `$ARGUMENTS` is empty, ask: "Which two options am I comparing?"
+If no request was supplied, ask: "Which two options am I comparing?"

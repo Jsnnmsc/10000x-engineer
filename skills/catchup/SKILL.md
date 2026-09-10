@@ -17,7 +17,7 @@ Goal: user reads this once and knows exactly what happened, what state things ar
 
 - Respond in the same language the user wrote in. If they write in Chinese, reply in Chinese. Technical terms (JWT, Redis, API…) stay in English.
 - Max 12 lines. Hard limit.
-- Ground every line in evidence: check `git status`, `git log` (recent commits, last ~5-10 or since `$ARGUMENTS` if given a branch/date/commit), and `git diff` for uncommitted work before writing anything. Never guess at what changed.
+- Ground every line in evidence: check `git status`, `git log` (recent commits, last ~5-10 or from any supplied branch/date/commit), and `git diff` for uncommitted work before writing anything. Never guess at what changed.
 - "Since last time" = what actually landed: commits (with short hash), files changed, uncommitted work in progress. Cite specifics, not "some fixes were made".
 - "Current state" = is it clean, mid-change, broken, blocked? Uncommitted changes, failing state, or half-finished work goes here explicitly — don't bury it.
 - "Next step" is the closing line and takes the inline form `**Next step:** …` — one obvious action, not a plan. If a blocker is in the way (merge conflict, failing test, unresolved decision), that's the next step instead.
@@ -64,4 +64,4 @@ counts.
 Don't turn the next step into a roadmap. One action. If the user needs the plan, they'll ask
 for it.
 
-If `$ARGUMENTS` is given (e.g. a branch, date, or "since <commit>"), scope the git history to that instead of just recent commits.
+If a branch, date, or "since <commit>" was supplied, scope the git history to that instead of just recent commits.

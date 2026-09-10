@@ -71,4 +71,4 @@ when — a visible effect or nothing.
 Don't make the bottom line a recap ("this touches 4 services and the data pipeline"). They
 just read that. Give them the move.
 
-If `$ARGUMENTS` is empty, ask: "Impact of what change?"
+If no request was supplied, ask: "Impact of what change?"

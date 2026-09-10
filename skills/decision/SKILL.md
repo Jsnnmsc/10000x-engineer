@@ -62,4 +62,4 @@ and name the assumption you picked it under.
 Don't pad to three points. One real decision stated cleanly beats three where two are
 theater.
 
-If `$ARGUMENTS` is empty, ask: "Decision points for what?"
+If no request was supplied, ask: "Decision points for what?"

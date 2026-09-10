@@ -60,4 +60,4 @@ first one says nothing.
 Don't write "A signed token for auth — see the docs for details." Pointing elsewhere is not
 an explanation.
 
-If `$ARGUMENTS` is empty, ask: "One line on what?"
+If no request was supplied, ask: "One line on what?"

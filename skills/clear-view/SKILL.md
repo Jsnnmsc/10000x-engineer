@@ -65,4 +65,4 @@ path" assumes the thing you're supposed to be explaining.
 
 Don't end on a menu of options. More than two means you haven't converged for the user yet.
 
-If `$ARGUMENTS` is empty, brief on the current session's situation.
+If no request was supplied, brief on the current session's situation.

@@ -95,4 +95,4 @@ skill stops at naming the problem.
 Don't produce a report. Five sections with tables and a reasoning chain is a document nobody
 reads — twelve lines that change the reader's mind is the deliverable.
 
-If `$ARGUMENTS` is empty, ask: "First principles on what?"
+If no request was supplied, ask: "First principles on what?"

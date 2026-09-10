@@ -70,4 +70,4 @@ Don't let the bottom line echo Why ("Why: limits exposure" → "Bottom line: wor
 the security gain"). If you have nothing new to add, the bottom line is the prerequisite or
 the order of operations.
 
-If `$ARGUMENTS` is empty, ask: "3W of what adjustment?"
+If no request was supplied, ask: "3W of what adjustment?"

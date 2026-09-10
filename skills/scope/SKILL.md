@@ -74,4 +74,4 @@ is noise; "no SMS reset" earns its line because someone will ask.
 
 Don't hedge the complexity with a range ("S–M"). Pick one and say what would move it.
 
-If `$ARGUMENTS` is empty, ask: "Paste the requirement or describe the task."
+If no request was supplied, ask: "Paste the requirement or describe the task."

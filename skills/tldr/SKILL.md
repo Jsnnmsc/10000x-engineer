@@ -78,4 +78,4 @@ user asked for the wrong skill — answer at this length anyway.
 Don't let the bottom line repeat the opening sentence in different words. It has to tell
 them what to *do*.
 
-If `$ARGUMENTS` is empty, ask: "Quick brief on what?"
+If no request was supplied, ask: "Quick brief on what?"
