@@ -65,6 +65,7 @@ Nothing to configure per repo — these skills read your code and answer.
 | **decision** | `/10000x-engineer:decision` + describe the task | You want the open decision points before diving in |
 | **catchup** | `/10000x-engineer:catchup` | You're returning to a task/repo and want to know what changed and what's next |
 | **clear-view** | `/10000x-engineer:clear-view` | You've lost the thread mid-investigation and need the situation plus the decision |
+| **vis** | `/10000x-engineer:vis` + the subject | You want to see it instead of read it — flow, tree, layers, timeline, table, bars, state machine |
 | **first-principle** | `/10000x-engineer:first-principle` + your own read of the problem | You want your understanding attacked — which parts are inherited convention, which survive |
 
 ## Examples
@@ -182,6 +183,32 @@ was never touched. What the real accuracy is with the cache off, we don't know y
 
 **Rerun with the cache disabled before touching the model — full 4972, or a 500-case
 sample first?**
+```
+
+**`vis`** — structure drawn in the terminal, nothing else:
+```
+/10000x-engineer:vis request 進到 API 之後發生什麼
+
+**Request 進到 API 之後**
+
+┌──────────┐
+│  client  │
+└────┬─────┘
+     │ HTTPS
+     ▼
+┌──────────┐
+│   edge   │
+└────┬─────┘
+     │
+     ▼
+┌──────────┐    ┌──────────┐
+│   auth   │───▶│ session  │
+└────┬─────┘    │ (redis)  │
+     │ token ok └──────────┘
+     ▼
+┌──────────┐    ┌──────────┐
+│ handler  │───▶│ postgres │
+└──────────┘    └──────────┘
 ```
 
 **`first-principle`** — you state your read of the problem, it comes back attacked:
