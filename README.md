@@ -66,7 +66,7 @@ Nothing to configure per repo — these skills read your code and answer.
 | **catchup** | `/10000x-engineer:catchup` | You're returning to a task/repo and want to know what changed and what's next |
 | **clear-view** | `/10000x-engineer:clear-view` | You've lost the thread mid-investigation and need the situation plus the decision |
 | **vis** | `/10000x-engineer:vis` + the subject | You want to see it instead of read it — flow, tree, layers, timeline, table, bars, state machine |
-| **first-principle** | `/10000x-engineer:first-principle` + your own read of the problem | You want your understanding attacked — which parts are inherited convention, which survive |
+| **first-principle** | `/10000x-engineer:first-principle` + the problem | You want the actual problem found — what's provably true, what's just inherited practice, and what any fix has to satisfy |
 
 ## Examples
 
@@ -211,25 +211,25 @@ sample first?**
 └──────────┘    └──────────┘
 ```
 
-**`first-principle`** — you state your read of the problem, it comes back attacked:
+**`first-principle`** — the actual problem, derived instead of argued with:
 ```
-/10000x-engineer:first-principle CI takes 40 minutes and everyone's waiting. My read is
-we have too many tests for the machines we've got, so more runners should get it under 10.
+/10000x-engineer:first-principle CI takes 40 minutes and everyone's waiting, so should we
+add runners and parallelize?
 
-**Your read:** CI is slow because test volume exceeds available compute, so parallelizing
-across more runners takes 40 minutes down to 10.
+**Wanted:** a broken commit is known before the developer forgets what they changed.
 
-**Assumptions removed**
-- Every commit runs the full suite — convention: a rule set three years ago at 200 tests, never revisited
-- More machines means faster — convention: treats CI as a compute problem, but total time doesn't drop and that isn't what developers wait on
-- The suite splits cleanly — unverified: check how many tests share one DB fixture; past a third it won't parallelize
+**Ground truths**
+- main takes 12 commits an hour, each touching 3 files on average (git log, 30 days)
+- everything must be green before merge — one required check, no exceptions (CI config)
+- 3800 of 4972 tests share one DB fixture (grep setup call sites) — parallel ceiling ≈ 4x
 
-**Facts that survive**
-- A commit touches 3 files on average
-- Developers want "did I break it", not "did everything finish"
-- Everything must be green before it merges to trunk
+**Convention in the current approach**
+- Every commit runs the full suite — from: a rule set three years ago at 200 tests · remove it and: nothing breaks, the required check still runs
+- Treating CI as a compute problem — from: the "not enough machines" instinct · remove it and: most of those 40 minutes are waiting, not computing
 
-**Essence:** the problem isn't that CI is slow, it's that a breakage takes 40 minutes to surface — those two have different fixes.
+**The actual problem:** it isn't that CI is slow, it's that "did I break it" takes 40 minutes to arrive — and at 12 commits an hour, they've moved on long before it does.
+
+**Any solution must:** ① push → breakage signal ≤5 minutes; ② run only the affected tests (the 3800 shared-fixture tests can't parallelize fast enough); ③ green before merge stays the final gate, it just doesn't have to be paid on every push.
 ```
 
 ## Agents
