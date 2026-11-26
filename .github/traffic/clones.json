@@ -1,7 +1,7 @@
 {
   "note": "Daily git clones of this repo. `/plugin install` clones the repo, so this tracks installs \u2014 but it also counts CI, mirrors, and plain browsing clones. Trend, not headcount.",
   "repo": "Jsnnmsc/10000x-engineer",
-  "updated": "2026-11-25T18:24:15Z",
+  "updated": "2026-11-26T18:06:12Z",
   "days": {
     "2026-08-19": {
       "count": 22,
@@ -394,6 +394,10 @@
     "2026-11-24": {
       "count": 13,
       "uniques": 8
+    },
+    "2026-11-25": {
+      "count": 26,
+      "uniques": 16
     }
   }
 }
